@@ -1,35 +1,24 @@
-# Sistem Garansi Baru
+# Pasang Perbaikan Garansi JuaStore
 
-Gunakan nama baru berikut:
+1. Ganti `worker.js` lama dengan file ini lalu commit ke GitHub.
+2. Buka Cloudflare D1 → `juastore-garansi-db` → Console.
+3. Jalankan seluruh isi `schema.sql`.
+4. Pastikan Worker memiliki:
+   - DB binding → `juastore-garansi-db`
+   - ALLOWED_ORIGIN = `https://juastore.biz.id` atau `*`
+   - TELEGRAM_BOT_TOKEN
+   - TELEGRAM_CHAT_ID
+   - TELEGRAM_WEBHOOK_SECRET
+5. Upload `cek.html` ke folder yang sama dengan `index.html`.
+6. Pastikan `index.html` mengirim POST ke:
+   `https://garansi-api.jhonyoga01.workers.dev/api/claims`
+7. Pasang webhook Telegram. Ganti TOKEN dan SECRET:
+   `https://api.telegram.org/botTOKEN/setWebhook?url=https%3A%2F%2Fgaransi-api.jhonyoga01.workers.dev%2Ftelegram-webhook%3Fkey%3DSECRET`
+8. Hasil benar:
+   `{"ok":true,"result":true,"description":"Webhook was set"}`
 
-- Repository GitHub: `sistem-garansi`
-- Worker: `garansi-api`
-- Database D1: `garansi-db`
-- URL Worker: `https://garansi-api.jhonyoga01.workers.dev`
-
-Jangan gunakan Worker lama `juastore-garansi-api`.
-
-## Urutan pemasangan
-
-1. Buat repository GitHub baru bernama `sistem-garansi`.
-2. Upload seluruh file paket ini.
-3. Cloudflare D1: buat database `garansi-db`.
-4. Jalankan seluruh isi `schema.sql`.
-5. Salin Database ID.
-6. Ganti `GANTI_DENGAN_DATABASE_ID_ASLI` di `wrangler.toml`.
-7. Commit ke branch `main`.
-8. Cloudflare Workers & Pages: Create → Import a repository.
-9. Pilih repository `sistem-garansi`.
-10. Build command: kosong.
-11. Deploy command: `npx wrangler deploy`.
-12. Root directory: `/`.
-13. Tambahkan binding D1:
-    - Variable name: `DB`
-    - Database: `garansi-db`
-14. Tambahkan variable:
-    - `ALLOWED_ORIGIN` = `*`
-15. Commit perubahan kecil di GitHub agar deployment berjalan.
-16. Buka `https://garansi-api.jhonyoga01.workers.dev`.
-
-Hasil benar:
-`{"success":true,"message":"Sistem Garansi API aktif."}`
+Tombol Telegram:
+- Terima → Diterima
+- Proses → Diproses
+- Tolak → Ditolak
+- Balas WhatsApp → membuka chat customer
