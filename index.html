@@ -1,55 +1,490 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Form Garansi</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#6d6d72">
+  <title>Form Garansi / Refund JuaStore</title>
+  <style>
+    :root{
+      --bg:#b9b9be;
+      --bg2:#8f8f95;
+      --panel:#d8d8dc;
+      --panel2:#eeeeef;
+      --card:#f6f6f7;
+      --text:#1d1d20;
+      --muted:#67676d;
+      --line:#8d8d92;
+      --dark:#3b3b40;
+      --dark2:#242428;
+      --shadow:8px 8px 0 rgba(43,43,47,.65);
+      --soft:0 14px 35px rgba(20,20,24,.16);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family:Inter,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 11px 11px,rgba(255,255,255,.16) 1.4px,transparent 1.5px) 0 0/22px 22px,
+        linear-gradient(160deg,var(--bg),var(--bg2));
+    }
+
+    .wrap{width:min(1180px,calc(100% - 24px));margin:auto}
+    header{
+      position:sticky;top:0;z-index:10;
+      background:rgba(225,225,228,.92);
+      border-bottom:2px solid #5a5a5f;
+      backdrop-filter:blur(10px);
+    }
+    .head{
+      min-height:82px;display:flex;align-items:center;
+      justify-content:space-between;gap:16px;padding:10px 0;
+    }
+    .brand{display:flex;align-items:center;gap:13px}
+    .logo{
+      width:58px;height:58px;border-radius:13px;
+      background:linear-gradient(145deg,#55555a,#252529);
+      display:grid;place-items:center;color:white;
+      font-size:27px;font-weight:900;box-shadow:5px 5px 0 #8f8f95;
+    }
+    .brand h2{margin:0;font-size:24px}
+    .brand p{margin:3px 0 0;color:var(--muted);font-size:13px}
+    nav{display:flex;gap:8px;flex-wrap:wrap}
+    nav a{
+      color:var(--text);text-decoration:none;font-weight:800;
+      padding:11px 14px;border-radius:11px;
+    }
+    nav a.active{background:var(--dark2);color:#fff;box-shadow:4px 4px 0 #89898e}
+
+    main{padding:30px 0}
+    .grid{
+      display:grid;grid-template-columns:1.12fr .88fr;
+      gap:24px;align-items:start;
+    }
+    .panel{
+      background:rgba(232,232,234,.95);
+      border:2px solid #4f4f54;
+      border-radius:20px;
+      box-shadow:var(--soft);
+      overflow:hidden;
+    }
+    .inside{padding:24px}
+    .title-row{display:flex;gap:14px;align-items:flex-start}
+    .shield{
+      width:52px;height:52px;border:3px solid #44444a;
+      border-radius:16px;display:grid;place-items:center;
+      font-size:25px;background:#f7f7f8;
+    }
+    h1{margin:0;font-size:29px}
+    .subtitle{margin:6px 0 0;color:var(--muted);line-height:1.5}
+
+    .section{margin-top:24px}
+    .section-title{
+      display:flex;align-items:center;gap:8px;
+      font-size:15px;font-weight:900;text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .box{
+      background:var(--card);
+      border:2px solid #6b6b70;
+      border-radius:14px;
+      padding:14px;
+      box-shadow:4px 5px 0 #b3b3b7;
+    }
+
+    .row{
+      display:grid;grid-template-columns:180px 1fr;
+      gap:14px;align-items:center;
+      border-bottom:1px solid #d3d3d6;
+      padding:10px 0;
+    }
+    .row:last-child{border-bottom:0}
+    .label{color:var(--muted);font-weight:700}
+    .value{font-weight:800;text-align:right}
+
+    .product-top{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding-bottom:12px;border-bottom:1px solid #d3d3d6;
+    }
+    .product-name{font-size:18px;font-weight:900}
+    .product-sub{color:var(--muted);font-size:13px;margin-top:4px}
+    .price{font-size:20px;font-weight:900}
+
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field{margin-bottom:13px}
+    .field.full{grid-column:1/-1}
+    label{display:block;font-weight:900;margin-bottom:7px}
+    input,select,textarea{
+      width:100%;border:2px solid #69696e;border-radius:11px;
+      background:#fafafa;color:var(--text);font-size:15px;
+      padding:12px 13px;outline:none;
+    }
+    textarea{min-height:110px;resize:vertical}
+    input:focus,select:focus,textarea:focus{
+      box-shadow:0 0 0 4px rgba(68,68,74,.14)
+    }
+    .help{font-size:12px;color:var(--muted);margin-top:6px}
+
+    .upload{
+      border:2px dashed #7a7a80;border-radius:12px;
+      padding:18px;text-align:center;background:#ededee;
+    }
+    .upload input{border:0;padding:0;background:transparent}
+    #preview{max-width:100%;max-height:260px;border-radius:12px;margin-top:12px;display:none}
+
+    .btn{
+      width:100%;min-height:52px;border:2px solid #303035;border-radius:12px;
+      background:linear-gradient(180deg,#5a5a60,#343438);
+      color:#fff;font-size:16px;font-weight:900;cursor:pointer;
+      box-shadow:6px 6px 0 #97979d;
+    }
+    .btn.secondary{
+      background:#c7c7cb;color:#202024;
+    }
+    .btn:active{transform:translate(2px,2px);box-shadow:3px 3px 0 #97979d}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+
+    .policy h3{margin:0 0 12px}
+    .policy-block{
+      border:2px solid #6a6a70;border-radius:13px;padding:14px;background:#f6f6f7;
+      margin-bottom:14px;
+    }
+    .policy-block ul{padding-left:21px;margin:8px 0 0}
+    .policy-block li{margin:8px 0;line-height:1.4}
+    .good{color:#3f5b43}.bad{color:#6d3434}
+    .refund-link{
+      display:block;text-decoration:none;color:var(--text);
+      background:#c9c9cd;border:2px solid #5d5d62;border-radius:12px;
+      padding:14px;text-align:center;font-weight:900;
+      box-shadow:4px 4px 0 #929298;
+    }
+
+    .saved{
+      margin-top:12px;font-size:13px;color:var(--muted);text-align:center;min-height:18px
+    }
+    footer{
+      margin-top:24px;background:rgba(230,230,232,.95);
+      border:2px solid #4f4f54;border-radius:18px;
+      padding:22px;display:flex;justify-content:center;align-items:center;gap:16px;
+    }
+    footer .logo{width:68px;height:68px;font-size:31px}
+    footer h2{margin:0} footer p{margin:4px 0 0;color:var(--muted)}
+
+    @media(max-width:860px){
+      nav{display:none}
+      .grid{grid-template-columns:1fr}
+      .inside{padding:18px}
+      .form-grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+      .row{grid-template-columns:1fr;gap:4px}
+      .value{text-align:left}
+      .actions{grid-template-columns:1fr}
+      h1{font-size:24px}
+    }
+  </style>
 </head>
 <body>
+<header>
+  <div class="wrap head">
+    <div class="brand">
+      <div class="logo">JS</div>
+      <div>
+        <h2>JuaStore</h2>
+        <p>Premium Apps & Topup Game</p>
+      </div>
+    </div>
+    <nav>
+      <a href="https://juastore.my.id">Kalkulator Refund</a>
+      <a class="active" href="#">Form Garansi / Refund</a>
+    </nav>
+  </div>
+</header>
+
 <main class="wrap">
-<section class="card">
-<h1>Form Garansi</h1>
-<form id="form">
-<input name="name" placeholder="Nama" required>
-<input name="whatsapp" placeholder="Nomor WhatsApp" required>
-<input name="product" placeholder="Produk" required>
-<input name="account" placeholder="Email/Akun">
-<input name="orderId" placeholder="ID Order">
-<input name="orderDate" type="date">
-<input name="duration" placeholder="Durasi">
-<select name="claimType">
-<option>Garansi</option>
-<option>Kendala Login</option>
-<option>Akun Bermasalah</option>
-</select>
-<textarea name="problem" placeholder="Jelaskan kendala" required></textarea>
-<button type="submit">Kirim Pengajuan</button>
-</form>
-<div id="message"></div>
-</section>
+  <div class="grid">
+    <section class="panel">
+      <div class="inside">
+        <div class="title-row">
+          <div class="shield">🛡</div>
+          <div>
+            <h1>FORM GARANSI / REFUND</h1>
+            <p class="subtitle">Lengkapi data pelanggan dan pesanan agar proses pengecekan dapat dilakukan lebih cepat.</p>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">👤 Data Pelanggan</div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="customerName">Nama Pelanggan</label>
+              <input id="customerName" placeholder="Contoh: Yoga Juanda">
+            </div>
+            <div class="field">
+              <label for="customerContact">Nomor WhatsApp Aktif</label>
+              <input id="customerContact" inputmode="numeric" placeholder="Contoh: 6285111662004">
+              <div class="help">Admin akan membalas ke nomor ini.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🛒 Detail Produk yang Diorder</div>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="productName">Nama Produk</label>
+              <input id="productName" placeholder="Contoh: Netflix Premium 1P2U">
+            </div>
+            <div class="field">
+              <label for="price">Harga Produk (Rp)</label>
+              <input id="price" type="number" min="0" placeholder="25000">
+            </div>
+            <div class="field">
+              <label for="duration">Durasi</label>
+              <input id="duration" placeholder="Contoh: 1 Bulan">
+            </div>
+            <div class="field">
+              <label for="orderDate">Tanggal Order</label>
+              <input id="orderDate" type="datetime-local">
+            </div>
+            <div class="field">
+              <label for="orderId">ID Order</label>
+              <input id="orderId" placeholder="Contoh: JS2505239587">
+            </div>
+            <div class="field">
+              <label for="payment">Metode Pembayaran</label>
+              <select id="payment">
+                <option>DANA</option>
+                <option>GoPay</option>
+                <option>QRIS</option>
+                <option>Lainnya</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="claimType">Jenis Pengajuan</label>
+              <select id="claimType">
+                <option>Garansi</option>
+                <option>Refund</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">📝 Isi Form Claim</div>
+          <div class="field">
+            <label for="problem">Masalah / Kendala</label>
+            <textarea id="problem" placeholder="Jelaskan kendala yang dialami secara detail..."></textarea>
+          </div>
+          <div class="field">
+            <label for="evidence">Bukti Screenshot Login / Error</label>
+            <div class="upload">
+              <input id="evidence" type="file" accept="image/png,image/jpeg,image/webp">
+              <div class="help">Format PNG, JPG, JPEG, atau WEBP. Maksimal disarankan 5 MB.</div>
+              <img id="preview" alt="Preview bukti">
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn secondary" id="saveBtn">💾 Simpan Data</button>
+          <button class="btn" id="sendBtn">✈ Kirim Pengajuan</button>
+        </div>
+        <div class="saved" id="status"></div>
+      </div>
+    </section>
+
+    <aside>
+      <section class="panel policy">
+        <div class="inside">
+          <h3>ⓘ KETENTUAN GARANSI & REFUND</h3>
+
+          <div class="policy-block">
+            <strong class="good">Garansi berlaku jika:</strong>
+            <ul>
+              <li>Akun atau error bukan akibat kesalahan pengguna.</li>
+              <li>Produk tidak bisa digunakan dan masih dalam masa garansi.</li>
+              <li>Pelanggan mengikuti semua syarat dan ketentuan.</li>
+            </ul>
+          </div>
+
+          <div class="policy-block">
+            <strong class="bad">Refund hanya berlaku jika:</strong>
+            <ul>
+              <li>Terjadi kesalahan dari pihak admin.</li>
+              <li>Produk tidak dapat digunakan dan tidak dapat diganti.</li>
+              <li>Kendala lain telah disetujui oleh admin.</li>
+            </ul>
+          </div>
+
+          <div class="policy-block">
+            <strong>Catatan penting:</strong>
+            <ul>
+              <li>Refund tidak berlaku untuk salah membeli produk.</li>
+              <li>Refund tidak berlaku jika pelanggan melanggar ketentuan layanan.</li>
+              <li>Keputusan akhir berada pada admin JuaStore.</li>
+            </ul>
+          </div>
+
+          <a class="refund-link" href="https://juastore.my.id" target="_blank" rel="noopener">
+            🧮 Buka Kalkulator Refund JuaStore
+          </a>
+        </div>
+      </section>
+
+      <section class="panel" style="margin-top:20px">
+        <div class="inside">
+          <h3 style="margin-top:0">📦 Ringkasan Pesanan</h3>
+          <div class="box">
+            <div class="product-top">
+              <div>
+                <div class="product-name" id="sumProduct">Belum diisi</div>
+                <div class="product-sub" id="sumClaim">Jenis pengajuan: Garansi</div>
+              </div>
+              <div class="price" id="sumPrice">Rp 0</div>
+            </div>
+            <div class="row"><div class="label">Nama Pelanggan</div><div class="value" id="sumName">-</div></div>
+            <div class="row"><div class="label">Durasi</div><div class="value" id="sumDuration">-</div></div>
+            <div class="row"><div class="label">Tanggal Order</div><div class="value" id="sumDate">-</div></div>
+            <div class="row"><div class="label">ID Order</div><div class="value" id="sumId">-</div></div>
+            <div class="row"><div class="label">Pembayaran</div><div class="value" id="sumPayment">DANA</div></div>
+          </div>
+        </div>
+      </section>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="logo">JS</div>
+    <div>
+      <h2>JuaStore</h2>
+      <p>Premium Apps & Topup Game</p>
+    </div>
+  </footer>
 </main>
+
 <script>
-const API="https://garansi-api.jhonyoga01.workers.dev";
-document.getElementById("form").addEventListener("submit",async(event)=>{
-  event.preventDefault();
-  const message=document.getElementById("message");
-  message.textContent="Mengirim...";
-  try{
-    const data=Object.fromEntries(new FormData(event.target).entries());
-    const response=await fetch(`${API}/api/claims`,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(data)
-    });
-    const result=await response.json();
-    if(!response.ok||!result.success) throw new Error(result.message||"Pengajuan gagal.");
-    message.textContent=`${result.message} ID: ${result.warrantyId}`;
-    event.target.reset();
-  }catch(error){
-    message.textContent=error.message||"Failed to fetch";
+  const ids = ['customerName','customerContact','productName','price','duration','orderDate','orderId','payment','claimType','problem'];
+  const el = id => document.getElementById(id);
+  const rupiah = n => new Intl.NumberFormat('id-ID').format(Number(n)||0);
+
+  function updateSummary(){
+    el('sumProduct').textContent = el('productName').value || 'Belum diisi';
+    el('sumClaim').textContent = 'Jenis pengajuan: ' + el('claimType').value;
+    el('sumPrice').textContent = 'Rp ' + rupiah(el('price').value);
+    el('sumName').textContent = el('customerName').value || '-';
+    el('sumDuration').textContent = el('duration').value || '-';
+    el('sumDate').textContent = el('orderDate').value
+      ? new Date(el('orderDate').value).toLocaleString('id-ID')
+      : '-';
+    el('sumId').textContent = el('orderId').value || '-';
+    el('sumPayment').textContent = el('payment').value;
   }
-});
+
+  ids.forEach(id => el(id).addEventListener('input',updateSummary));
+  ids.forEach(id => el(id).addEventListener('change',updateSummary));
+
+  el('evidence').addEventListener('change',e=>{
+    const file=e.target.files[0];
+    if(!file)return;
+    const img=el('preview');
+    img.src=URL.createObjectURL(file);
+    img.style.display='inline-block';
+  });
+
+  function collect(){
+    const data={};
+    ids.forEach(id=>data[id]=el(id).value);
+    return data;
+  }
+
+  el('saveBtn').addEventListener('click',()=>{
+    localStorage.setItem('juastoreClaimData',JSON.stringify(collect()));
+    el('status').textContent='Data berhasil disimpan di perangkat ini.';
+    setTimeout(()=>el('status').textContent='',2500);
+  });
+
+  // Ganti dengan URL Cloudflare Worker setelah deploy.
+  const API_ENDPOINT = 'https://https://juastore-garansi-api.jhonyoga01.workers.dev/submit';
+
+  el('sendBtn').addEventListener('click', async ()=>{
+    const d=collect();
+    const required = [
+      ['customerName','Nama pelanggan'],
+      ['customerContact','Nomor WhatsApp'],
+      ['productName','Nama produk'],
+      ['orderId','ID order'],
+      ['problem','Masalah/kendala']
+    ];
+    for (const [id,label] of required){
+      if(!el(id).value.trim()){
+        el('status').textContent=`${label} wajib diisi.`;
+        el(id).focus();
+        return;
+      }
+    }
+
+    const phone=d.customerContact.replace(/[^0-9]/g,'');
+    if(!/^62[0-9]{8,13}$/.test(phone)){
+      el('status').textContent='Nomor WhatsApp harus diawali 62, contoh 6285111662004.';
+      el('customerContact').focus();
+      return;
+    }
+
+    if(API_ENDPOINT.includes('8422213244:AAHJUuC4hol1cxfBkw95qdJepHxSblv9Nww')){
+      el('status').textContent='API bot belum dipasang. Baca README.txt untuk langkah deploy.';
+      return;
+    }
+
+    const btn=el('sendBtn');
+    btn.disabled=true;
+    btn.textContent='⏳ Mengirim...';
+    el('status').textContent='Mohon tunggu, pengajuan sedang dikirim.';
+
+    try{
+      const fd=new FormData();
+      Object.entries(d).forEach(([k,v])=>fd.append(k,v));
+      fd.set('customerContact',phone);
+      const file=el('evidence').files[0];
+      if(file){
+        if(file.size > 5*1024*1024) throw new Error('Ukuran screenshot maksimal 5 MB.');
+        fd.append('evidence',file);
+      }
+
+      const res=await fetch(API_ENDPOINT,{method:'POST',body:fd});
+      const out=await res.json().catch(()=>({}));
+      if(!res.ok) throw new Error(out.error || 'Pengiriman gagal. Silakan coba lagi.');
+
+      localStorage.removeItem('juastoreClaimData');
+      el('status').innerHTML=`✅ Pengajuan berhasil dikirim.<br>ID Garansi: <b>${out.claimId}</b><br>Silakan tunggu balasan admin ke WhatsApp ${phone}.`;
+      btn.textContent='✅ Pengajuan Terkirim';
+      setTimeout(()=>{btn.disabled=false;btn.textContent='✈ Kirim Pengajuan';},4000);
+    }catch(err){
+      el('status').textContent='❌ '+err.message;
+      btn.disabled=false;
+      btn.textContent='✈ Kirim Pengajuan';
+    }
+  });
+
+  const saved=localStorage.getItem('juastoreClaimData');
+  if(saved){
+    try{
+      const d=JSON.parse(saved);
+      ids.forEach(id=>{if(d[id]!==undefined)el(id).value=d[id]});
+    }catch(e){}
+  }
+
+  if(!el('orderDate').value){
+    const now=new Date();
+    now.setMinutes(now.getMinutes()-now.getTimezoneOffset());
+    el('orderDate').value=now.toISOString().slice(0,16);
+  }
+
+  updateSummary();
 </script>
 </body>
 </html>
