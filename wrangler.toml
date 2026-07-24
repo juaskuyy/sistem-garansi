@@ -5,4 +5,4 @@ compatibility_date = "2026-07-23"
 [[d1_databases]]
 binding = "DB"
 database_name = "garansi-db"
-database_id = "8a6d53ac"
+database_id = "66918a8f-1dc4-414c-937b-517bdfcc2f62"
