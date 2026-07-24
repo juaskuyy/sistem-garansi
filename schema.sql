@@ -17,7 +17,5 @@ CREATE TABLE IF NOT EXISTS claims (
   created_at TEXT NOT NULL,
   updated_at TEXT NOT NULL
 );
-
 CREATE INDEX IF NOT EXISTS idx_claims_whatsapp ON claims(whatsapp);
 CREATE INDEX IF NOT EXISTS idx_claims_status ON claims(status);
-CREATE INDEX IF NOT EXISTS idx_claims_created_at ON claims(created_at);
