@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cek Garansi JuaStore</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#b9b9be;font-family:Arial,sans-serif;color:#202024}
+    .wrap{max-width:650px;margin:auto;padding:20px}.card{background:#eee;border:2px solid #555;border-radius:20px;padding:22px;box-shadow:8px 8px 0 rgba(50,50,55,.35)}
+    h1{margin-top:0}.logo{width:58px;height:58px;border-radius:14px;background:#2f3034;color:#fff;display:grid;place-items:center;font-size:25px;font-weight:900;margin-bottom:15px}
+    input,button{width:100%;padding:14px;border-radius:12px;font:inherit}input{border:2px solid #69696e}button{margin-top:12px;border:0;background:#303035;color:white;font-weight:900}
+    .item{background:#fff;border:2px solid #777;border-radius:14px;padding:15px;margin-top:15px}.head{display:flex;justify-content:space-between;gap:12px}
+    .badge{background:#ddd;border-radius:999px;padding:6px 10px;font-weight:800}.msg{margin-top:15px}
+    a{display:block;text-align:center;margin-top:18px;color:#222;font-weight:800}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <div class="logo">JS</div>
+      <h1>Cek Status Garansi</h1>
+      <p>Masukkan ID garansi atau nomor WhatsApp.</p>
+
+      <form id="form">
+        <input id="q" placeholder="GRN-... atau 08xxxxxxxxxx" required>
+        <button type="submit">Cek Status</button>
+      </form>
+
+      <div id="result" class="msg"></div>
+      <a href="index.html">Kembali ke Form Garansi</a>
+    </section>
+  </main>
+
+<script>
+const API = "https://garansi-api.jhonyoga01.workers.dev";
+
+document.getElementById("form").addEventListener("submit", async event => {
+  event.preventDefault();
+  const box = document.getElementById("result");
+  box.textContent = "Memeriksa...";
+
+  try {
+    const q = document.getElementById("q").value.trim();
+    const response = await fetch(`${API}/api/status?q=${encodeURIComponent(q)}`);
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Gagal memeriksa status.");
+    }
+
+    if (!result.data.length) {
+      box.textContent = "Data garansi tidak ditemukan.";
+      return;
+    }
+
+    box.innerHTML = result.data.map(item => `
+      <article class="item">
+        <div class="head">
+          <strong>${safe(item.id)}</strong>
+          <span class="badge">${safe(item.status)}</span>
+        </div>
+        <p><b>Produk:</b> ${safe(item.product_name)}</p>
+        <p><b>ID Order:</b> ${safe(item.order_id)}</p>
+        <p><b>Durasi:</b> ${safe(item.duration || "-")}</p>
+        <p><b>Jenis:</b> ${safe(item.claim_type)}</p>
+        <p><b>Catatan Admin:</b> ${safe(item.admin_note || "-")}</p>
+        <small>Diperbarui: ${new Date(item.updated_at).toLocaleString("id-ID")}</small>
+      </article>
+    `).join("");
+  } catch (error) {
+    box.textContent = error.message;
+  }
+});
+
+function safe(value) {
+  return String(value ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;");
+}
+</script>
+</body>
+</html>
