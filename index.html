@@ -1,354 +1,138 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#6d6d72">
-<title>Form Garansi / Refund JuaStore</title>
-<style>
-:root{--bg:#b9b9be;--bg2:#8f8f95;--panel:#e8e8ea;--card:#f6f6f7;--text:#1d1d20;--muted:#67676d;--dark:#303035}
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:Arial,sans-serif;color:var(--text);background:linear-gradient(160deg,var(--bg),var(--bg2))}.wrap{width:min(1180px,calc(100% - 24px));margin:auto}header{position:sticky;top:0;z-index:5;background:#e1e1e4e8;border-bottom:2px solid #5a5a5f}.head{min-height:82px;display:flex;align-items:center;justify-content:space-between;padding:10px 0}.brand{display:flex;align-items:center;gap:13px}.logo{width:58px;height:58px;border-radius:13px;background:linear-gradient(145deg,#55555a,#252529);display:grid;place-items:center;color:#fff;font-size:27px;font-weight:900;box-shadow:5px 5px 0 #8f8f95}.brand h2{margin:0;font-size:24px}.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}nav a{color:var(--text);text-decoration:none;font-weight:800;padding:11px 14px;border-radius:11px}nav .active{background:#242428;color:#fff}main{padding:30px 0}.grid{display:grid;grid-template-columns:1.12fr .88fr;gap:24px;align-items:start}.panel{background:rgba(232,232,234,.96);border:2px solid #4f4f54;border-radius:20px;box-shadow:0 14px 35px #14141829;overflow:hidden}.inside{padding:24px}.title-row{display:flex;gap:14px;align-items:flex-start}.shield{width:52px;height:52px;border:3px solid #44444a;border-radius:16px;display:grid;place-items:center;font-size:25px;background:#f7f7f8}h1{margin:0;font-size:29px}.subtitle{margin:6px 0 0;color:var(--muted);line-height:1.5}.section{margin-top:24px}.section-title{font-size:15px;font-weight:900;text-transform:uppercase;margin-bottom:10px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{margin-bottom:13px}.full{grid-column:1/-1}label{display:block;font-weight:900;margin-bottom:7px}input,select,textarea{width:100%;border:2px solid #69696e;border-radius:11px;background:#fafafa;color:var(--text);font-size:15px;padding:12px 13px;outline:none}textarea{min-height:110px;resize:vertical}.help{font-size:12px;color:var(--muted);margin-top:6px}.upload{border:2px dashed #7a7a80;border-radius:12px;padding:18px;text-align:center;background:#ededee}.upload input{border:0;padding:0;background:transparent}#preview{max-width:100%;max-height:260px;border-radius:12px;margin-top:12px;display:none}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}.btn{width:100%;min-height:52px;border:2px solid #303035;border-radius:12px;background:linear-gradient(180deg,#5a5a60,#343438);color:#fff;font-size:16px;font-weight:900;cursor:pointer;box-shadow:6px 6px 0 #97979d}.secondary{background:#c7c7cb;color:#202024}.btn:disabled{opacity:.6}.saved{margin-top:14px;text-align:center;line-height:1.55;min-height:22px}.success{color:#256b37;font-weight:800}.error{color:#9b2f2f;font-weight:800}.policy-block{border:2px solid #6a6a70;border-radius:13px;padding:14px;background:#f6f6f7;margin-bottom:14px}.policy-block li{margin:8px 0;line-height:1.4}.link{display:block;text-decoration:none;color:var(--text);background:#c9c9cd;border:2px solid #5d5d62;border-radius:12px;padding:14px;text-align:center;font-weight:900;margin-top:12px}.box{background:var(--card);border:2px solid #6b6b70;border-radius:14px;padding:14px}.row{display:grid;grid-template-columns:180px 1fr;gap:14px;border-bottom:1px solid #d3d3d6;padding:10px 0}.row:last-child{border-bottom:0}.value{text-align:right;font-weight:800}.product-top{display:flex;justify-content:space-between;gap:12px;padding-bottom:12px;border-bottom:1px solid #d3d3d6}.product-name,.price{font-size:18px;font-weight:900}.product-sub{color:var(--muted);font-size:13px;margin-top:4px}footer{margin-top:24px;background:#e6e6e8;border:2px solid #4f4f54;border-radius:18px;padding:22px;display:flex;justify-content:center;align-items:center;gap:16px}footer h2,footer p{margin:0}footer p{color:var(--muted);margin-top:4px}@media(max-width:860px){nav{display:none}.grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.full{grid-column:auto}.inside{padding:18px}.actions{grid-template-columns:1fr}.row{grid-template-columns:1fr;gap:4px}.value{text-align:left}h1{font-size:24px}}
-</style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#17191d" />
+  <meta name="description" content="Form pengajuan garansi dan refund resmi JuaStore." />
+  <title>JuaStore — Garansi & Refund</title>
+  <style>
+    :root{--bg:#0f1115;--card:#171a20;--card2:#1d2128;--line:#2a3039;--text:#f4f6f8;--muted:#a9b0ba;--accent:#d8dde4;--dark:#111318;--ok:#37c978;--warn:#f0b84b;--bad:#ef6262;--shadow:0 18px 45px rgba(0,0,0,.28)}
+    *{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:radial-gradient(circle at top,#242933 0,#12151a 34%,#0d0f13 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;min-height:100vh}
+    button,input,select,textarea{font:inherit} a{color:inherit}
+    .wrap{width:min(920px,calc(100% - 28px));margin:auto;padding:26px 0 44px}
+    .hero{display:flex;gap:16px;align-items:center;padding:20px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border-radius:24px;box-shadow:var(--shadow)}
+    .logo{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:#d9dde3;color:#13161a;font-weight:900;font-size:22px;letter-spacing:-1px;flex:0 0 auto}
+    h1{font-size:clamp(23px,5vw,34px);line-height:1.08;margin:0 0 7px}.sub{margin:0;color:var(--muted);font-size:14px;line-height:1.55}
+    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:7px;margin:18px 0;background:#11141a;border:1px solid var(--line);border-radius:16px;position:sticky;top:8px;z-index:5;backdrop-filter:blur(12px)}
+    .tab{border:0;border-radius:11px;padding:12px 10px;background:transparent;color:var(--muted);font-weight:800;cursor:pointer}.tab.active{background:var(--accent);color:#111318}
+    .panel{display:none}.panel.active{display:block}
+    .card{background:rgba(23,26,32,.96);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+    .card h2{font-size:20px;margin:0 0 5px}.hint{color:var(--muted);font-size:13px;margin:0 0 18px;line-height:1.5}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.full{grid-column:1/-1}
+    label{display:block;font-size:13px;font-weight:750;color:#dce0e6;margin:0 0 7px}
+    .req{color:#ff8585} input,select,textarea{width:100%;border:1px solid #343b46;background:#11141a;color:var(--text);border-radius:12px;padding:13px 14px;outline:none;transition:.2s} textarea{min-height:120px;resize:vertical} input:focus,select:focus,textarea:focus{border-color:#8f98a6;box-shadow:0 0 0 3px rgba(216,221,228,.09)}
+    input[type=file]{padding:10px}.small{font-size:12px;color:var(--muted);margin-top:6px}
+    .btn{width:100%;border:0;border-radius:13px;background:var(--accent);color:#111318;padding:14px 18px;font-weight:900;cursor:pointer;margin-top:18px;display:flex;align-items:center;justify-content:center;gap:8px}.btn:disabled{opacity:.6;cursor:not-allowed}.btn.secondary{background:#2a3039;color:#fff;margin-top:10px}
+    .notice{display:none;margin-top:15px;border-radius:13px;padding:13px 14px;font-size:14px;line-height:1.5;border:1px solid}.notice.show{display:block}.notice.ok{background:rgba(55,201,120,.1);border-color:rgba(55,201,120,.45);color:#bff4d5}.notice.err{background:rgba(239,98,98,.1);border-color:rgba(239,98,98,.45);color:#ffd0d0}
+    .status-list{display:grid;gap:12px;margin-top:16px}.status-item{border:1px solid var(--line);background:#12151a;border-radius:15px;padding:15px}.status-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.status-id{font-weight:900;font-size:14px;word-break:break-all}.badge{padding:6px 9px;border-radius:999px;font-size:11px;font-weight:900;white-space:nowrap;background:#353b45}.badge.wait{color:#ffe3a3;background:rgba(240,184,75,.14)}.badge.ok{color:#baf2d1;background:rgba(55,201,120,.14)}.badge.bad{color:#ffc6c6;background:rgba(239,98,98,.14)}.meta{display:grid;gap:6px;margin-top:12px;color:#c8cdd4;font-size:13px}.meta b{color:#fff}.empty{text-align:center;color:var(--muted);padding:28px 10px}
+    .footer{text-align:center;color:#7f8792;font-size:12px;padding:22px 0 4px}.spinner{width:17px;height:17px;border:2px solid rgba(0,0,0,.25);border-top-color:#111;border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+    @media(max-width:680px){.grid{grid-template-columns:1fr}.full{grid-column:auto}.hero{align-items:flex-start}.wrap{width:min(100% - 20px,920px);padding-top:12px}.card{padding:16px;border-radius:18px}.tabs{top:6px}}
+  </style>
 </head>
 <body>
-<header><div class="wrap head"><div class="brand"><div class="logo">JS</div><div><h2>JuaStore</h2><p>Premium Apps & Topup Game</p></div></div><nav><a href="https://juastore.my.id">Kalkulator Refund</a><a class="active" href="#">Form Garansi / Refund</a></nav></div></header>
-<main class="wrap"><div class="grid">
-<section class="panel"><div class="inside">
-<div class="title-row"><div class="shield">🛡</div><div><h1>FORM GARANSI / REFUND</h1><p class="subtitle">Lengkapi data pelanggan dan pesanan agar pengecekan lebih cepat.</p></div></div>
-<div class="section"><div class="section-title">👤 Data Pelanggan</div><div class="form-grid"><div class="field"><label for="customerName">Nama Pelanggan</label><input id="customerName" placeholder="Contoh: Yoga Juanda"></div><div class="field"><label for="customerContact">Nomor WhatsApp Aktif</label><input id="customerContact" inputmode="numeric" placeholder="Contoh: 6285111662004"><div class="help">Admin akan membalas ke nomor ini.</div></div></div></div>
-<div class="section"><div class="section-title">🛒 Detail Produk</div><div class="form-grid"><div class="field full"><label for="productName">Nama Produk</label><input id="productName" placeholder="Contoh: Netflix Premium 1P2U"></div><div class="field"><label for="price">Harga Produk (Rp)</label><input id="price" type="number" min="0" placeholder="25000"></div><div class="field"><label for="duration">Durasi</label><input id="duration" placeholder="Contoh: 1 Bulan"></div><div class="field"><label for="orderDate">Tanggal Order</label><input id="orderDate" type="datetime-local"></div><div class="field"><label for="orderId">ID Order</label><input id="orderId" placeholder="Contoh: JS2505239587"></div><div class="field"><label for="payment">Metode Pembayaran</label><select id="payment"><option>DANA</option><option>GoPay</option><option>QRIS</option><option>Lainnya</option></select></div><div class="field"><label for="claimType">Jenis Pengajuan</label><select id="claimType"><option>Garansi</option><option>Refund</option></select></div></div></div>
-<div class="section"><div class="section-title">📝 Isi Form Claim</div><div class="field"><label for="problem">Masalah / Kendala</label><textarea id="problem" placeholder="Jelaskan kendala secara detail..."></textarea></div><div class="field"><label for="evidence">Bukti Screenshot Login / Error</label><div class="upload"><input id="evidence" type="file" accept="image/png,image/jpeg,image/webp"><div class="help">PNG, JPG, JPEG, atau WEBP. Maksimal 5 MB.</div><img id="preview" alt="Preview bukti"></div></div></div>
-<div class="actions"><button class="btn secondary" id="saveBtn" type="button">💾 Simpan Data</button><button class="btn" id="sendBtn" type="button">✈ Kirim Pengajuan</button></div><div class="saved" id="status"></div>
-</div></section>
-<aside><section class="panel"><div class="inside"><h3>ⓘ KETENTUAN GARANSI & REFUND</h3><div class="policy-block"><strong>Garansi berlaku jika:</strong><ul><li>Error bukan akibat kesalahan pengguna.</li><li>Produk masih dalam masa garansi.</li><li>Pelanggan mengikuti ketentuan.</li></ul></div><div class="policy-block"><strong>Refund berlaku jika:</strong><ul><li>Terjadi kesalahan dari pihak admin.</li><li>Produk tidak dapat digunakan dan tidak dapat diganti.</li><li>Sudah disetujui admin.</li></ul></div><a class="link" href="https://juastore.my.id" target="_blank">🧮 Buka Kalkulator Refund</a><a class="link" href="cek.html">🔎 Cek Status Garansi</a></div></section>
-<section class="panel" style="margin-top:20px"><div class="inside"><h3>📦 Ringkasan Pesanan</h3><div class="box"><div class="product-top"><div><div class="product-name" id="sumProduct">Belum diisi</div><div class="product-sub" id="sumClaim">Jenis pengajuan: Garansi</div></div><div class="price" id="sumPrice">Rp 0</div></div><div class="row"><div>Nama</div><div class="value" id="sumName">-</div></div><div class="row"><div>Durasi</div><div class="value" id="sumDuration">-</div></div><div class="row"><div>Tanggal</div><div class="value" id="sumDate">-</div></div><div class="row"><div>ID Order</div><div class="value" id="sumId">-</div></div><div class="row"><div>Pembayaran</div><div class="value" id="sumPayment">DANA</div></div></div></div></section></aside>
-</div><footer><div class="logo">JS</div><div><h2>JuaStore</h2><p>Premium Apps & Topup Game</p></div></footer></main>
-<script>
-const API_ENDPOINT = 'https://garansi-api.jhonyoga01.workers.dev/api/claims';
+  <main class="wrap">
+    <section class="hero">
+      <div class="logo">JS</div>
+      <div><h1>Garansi & Refund JuaStore</h1><p class="sub">Ajukan kendala pembelian dan cek prosesnya secara mandiri. Pastikan data order yang dimasukkan benar.</p></div>
+    </section>
 
-const ids = [
-  'customerName',
-  'customerContact',
-  'productName',
-  'price',
-  'duration',
-  'orderDate',
-  'orderId',
-  'payment',
-  'claimType',
-  'problem'
-];
+    <nav class="tabs" aria-label="Navigasi">
+      <button class="tab active" type="button" data-target="claimPanel">Ajukan Klaim</button>
+      <button class="tab" type="button" data-target="statusPanel">Cek Status</button>
+    </nav>
 
-const el = id => document.getElementById(id);
+    <section id="claimPanel" class="panel active">
+      <div class="card">
+        <h2>Form Pengajuan</h2>
+        <p class="hint">Kolom bertanda <span class="req">*</span> wajib diisi. Bukti order/login sangat membantu proses verifikasi.</p>
+        <form id="claimForm" enctype="multipart/form-data" novalidate>
+          <div class="grid">
+            <div><label for="customerName">Nama pelanggan <span class="req">*</span></label><input id="customerName" name="customerName" autocomplete="name" required placeholder="Nama lengkap" /></div>
+            <div><label for="customerContact">Nomor WhatsApp <span class="req">*</span></label><input id="customerContact" name="customerContact" inputmode="tel" autocomplete="tel" required placeholder="08xxxxxxxxxx" /></div>
+            <div><label for="productName">Nama produk <span class="req">*</span></label><input id="productName" name="productName" required placeholder="Contoh: Netflix 1P1U" /></div>
+            <div><label for="price">Harga pembelian</label><input id="price" name="price" inputmode="numeric" placeholder="Contoh: 25000" /></div>
+            <div><label for="duration">Durasi</label><input id="duration" name="duration" placeholder="Contoh: 1 bulan" /></div>
+            <div><label for="orderDate">Tanggal order</label><input id="orderDate" name="orderDate" type="date" /></div>
+            <div><label for="orderId">ID order <span class="req">*</span></label><input id="orderId" name="orderId" required placeholder="Contoh: JS-20260724-001" /></div>
+            <div><label for="payment">Metode pembayaran</label><select id="payment" name="payment"><option value="">Pilih metode</option><option>DANA</option><option>GoPay</option><option>QRIS</option><option>Transfer Bank</option><option>Lainnya</option></select></div>
+            <div class="full"><label for="claimType">Jenis pengajuan</label><select id="claimType" name="claimType"><option value="Garansi">Garansi</option><option value="Refund">Refund</option></select></div>
+            <div class="full"><label for="problem">Masalah / kendala <span class="req">*</span></label><textarea id="problem" name="problem" required placeholder="Jelaskan kendala dengan jelas, termasuk sejak kapan masalah terjadi."></textarea></div>
+            <div class="full"><label for="evidence">Bukti screenshot</label><input id="evidence" name="evidence" type="file" accept="image/jpeg,image/png,image/webp" /><div class="small">Format JPG, PNG, atau WEBP. Maksimal 5 MB.</div></div>
+          </div>
+          <button id="submitBtn" class="btn" type="submit">Kirim Pengajuan</button>
+          <div id="claimNotice" class="notice" role="alert"></div>
+        </form>
+      </div>
+    </section>
 
-const rupiah = value =>
-  new Intl.NumberFormat('id-ID').format(Number(value) || 0);
+    <section id="statusPanel" class="panel">
+      <div class="card">
+        <h2>Cek Status Klaim</h2>
+        <p class="hint">Masukkan ID garansi, misalnya <b>GRN-...</b>, atau nomor WhatsApp yang dipakai saat pengajuan.</p>
+        <form id="statusForm">
+          <label for="statusQuery">ID garansi / WhatsApp</label>
+          <input id="statusQuery" required placeholder="GRN-... atau 08xxxxxxxxxx" />
+          <button id="statusBtn" class="btn" type="submit">Cari Status</button>
+        </form>
+        <div id="statusNotice" class="notice" role="alert"></div>
+        <div id="statusResults" class="status-list"></div>
+      </div>
+    </section>
 
-function updateSummary() {
-  el('sumProduct').textContent =
-    el('productName').value || 'Belum diisi';
+    <div class="footer">© 2026 JuaStore • Apps • Games • Hosting</div>
+  </main>
 
-  el('sumClaim').textContent =
-    'Jenis pengajuan: ' + el('claimType').value;
+  <script>
+    const API_BASE = "https://juastore-garansi-worker.jhonyoga01.workers.dev";
+    const $ = (id) => document.getElementById(id);
 
-  el('sumPrice').textContent =
-    'Rp ' + rupiah(el('price').value);
+    document.querySelectorAll('.tab').forEach(tab => tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      document.querySelectorAll('.panel').forEach(x => x.classList.remove('active'));
+      tab.classList.add('active'); $(tab.dataset.target).classList.add('active');
+    }));
 
-  el('sumName').textContent =
-    el('customerName').value || '-';
+    function showNotice(el, message, ok=false){ el.textContent=message; el.className=`notice show ${ok?'ok':'err'}`; }
+    function clearNotice(el){ el.textContent=''; el.className='notice'; }
+    function setLoading(btn, loading, text){ btn.disabled=loading; btn.innerHTML=loading?'<span class="spinner"></span> Memproses...':text; }
+    function esc(s){ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
-  el('sumDuration').textContent =
-    el('duration').value || '-';
-
-  el('sumDate').textContent = el('orderDate').value
-    ? new Date(el('orderDate').value).toLocaleString('id-ID')
-    : '-';
-
-  el('sumId').textContent =
-    el('orderId').value || '-';
-
-  el('sumPayment').textContent =
-    el('payment').value;
-}
-
-ids.forEach(id => {
-  el(id).addEventListener('input', updateSummary);
-  el(id).addEventListener('change', updateSummary);
-});
-
-el('evidence').addEventListener('change', event => {
-  const file = event.target.files[0];
-  const preview = el('preview');
-
-  if (!file) {
-    preview.removeAttribute('src');
-    preview.style.display = 'none';
-    return;
-  }
-
-  if (file.size > 5 * 1024 * 1024) {
-    statusMsg(
-      '❌ Ukuran screenshot maksimal 5 MB.',
-      'error'
-    );
-
-    event.target.value = '';
-    preview.removeAttribute('src');
-    preview.style.display = 'none';
-    return;
-  }
-
-  preview.src = URL.createObjectURL(file);
-  preview.style.display = 'inline-block';
-});
-
-function collect() {
-  const data = {};
-
-  ids.forEach(id => {
-    data[id] = el(id).value;
-  });
-
-  return data;
-}
-
-function statusMsg(message, type = '') {
-  el('status').className = 'saved ' + type;
-  el('status').innerHTML = message;
-}
-
-function normalizePhone(value) {
-  let number = String(value || '').replace(/\D/g, '');
-
-  if (number.startsWith('0')) {
-    number = '62' + number.slice(1);
-  } else if (number.startsWith('8')) {
-    number = '62' + number;
-  }
-
-  return number;
-}
-
-el('saveBtn').onclick = () => {
-  localStorage.setItem(
-    'juastoreClaimData',
-    JSON.stringify(collect())
-  );
-
-  statusMsg(
-    '✅ Data berhasil disimpan di perangkat ini.',
-    'success'
-  );
-};
-
-el('sendBtn').onclick = async () => {
-  const data = collect();
-  const whatsapp = normalizePhone(data.customerContact);
-  const file = el('evidence').files[0];
-
-  const requiredFields = [
-    ['customerName', 'Nama pelanggan'],
-    ['customerContact', 'Nomor WhatsApp'],
-    ['productName', 'Nama produk'],
-    ['orderId', 'ID Order'],
-    ['problem', 'Masalah atau kendala']
-  ];
-
-  for (const [id, label] of requiredFields) {
-    if (!el(id).value.trim()) {
-      statusMsg(`❌ ${label} wajib diisi.`, 'error');
-      el(id).focus();
-      return;
-    }
-  }
-
-  if (!/^62\d{8,13}$/.test(whatsapp)) {
-    statusMsg(
-      '❌ Nomor WhatsApp tidak valid. Contoh: 6285111662004.',
-      'error'
-    );
-
-    el('customerContact').focus();
-    return;
-  }
-
-  if (file && file.size > 5 * 1024 * 1024) {
-    statusMsg(
-      '❌ Ukuran screenshot maksimal 5 MB.',
-      'error'
-    );
-    return;
-  }
-
-  const button = el('sendBtn');
-
-  button.disabled = true;
-  button.textContent = '⏳ Mengirim...';
-
-  statusMsg(
-    'Mohon tunggu, pengajuan sedang dikirim.'
-  );
-
-  try {
-    const formData = new FormData();
-
-    /*
-     * Nama field di bawah ini sudah disesuaikan
-     * dengan worker.js JuaStore.
-     */
-    formData.append(
-      'customerName',
-      data.customerName.trim()
-    );
-
-    formData.append(
-      'customerContact',
-      whatsapp
-    );
-
-    formData.append(
-      'productName',
-      data.productName.trim()
-    );
-
-    formData.append(
-      'price',
-      data.price || ''
-    );
-
-    formData.append(
-      'duration',
-      data.duration || ''
-    );
-
-    formData.append(
-      'orderDate',
-      data.orderDate || ''
-    );
-
-    formData.append(
-      'orderId',
-      data.orderId.trim()
-    );
-
-    formData.append(
-      'payment',
-      data.payment || ''
-    );
-
-    formData.append(
-      'claimType',
-      data.claimType || 'Garansi'
-    );
-
-    formData.append(
-      'problem',
-      data.problem.trim()
-    );
-
-    if (file) {
-      formData.append('evidence', file);
-    }
-
-    const response = await fetch(API_ENDPOINT, {
-      method: 'POST',
-      body: formData
+    $('claimForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); clearNotice($('claimNotice'));
+      if(!e.currentTarget.reportValidity()) return;
+      const file=$('evidence').files[0];
+      if(file && file.size>5*1024*1024){ showNotice($('claimNotice'),'Screenshot maksimal 5 MB.'); return; }
+      setLoading($('submitBtn'),true,'Kirim Pengajuan');
+      try{
+        const response=await fetch(`${API_BASE}/api/claims`,{method:'POST',body:new FormData(e.currentTarget)});
+        const raw=await response.text(); let data;
+        try{ data=JSON.parse(raw); }catch{ throw new Error(`Respons server tidak valid: ${raw.slice(0,160)}`); }
+        if(!response.ok || !data.success) throw new Error(data.message||'Pengajuan gagal dikirim.');
+        showNotice($('claimNotice'),`Pengajuan berhasil. Simpan ID garansi: ${data.claimId}`,true);
+        e.currentTarget.reset();
+        window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+      }catch(err){ showNotice($('claimNotice'),err.message||'Tidak dapat terhubung ke server.'); }
+      finally{ setLoading($('submitBtn'),false,'Kirim Pengajuan'); }
     });
 
-    /*
-     * Respons dibaca sebagai teks terlebih dahulu.
-     * Ini mencegah error:
-     * No number after minus sign in JSON.
-     */
-    const rawResponse = await response.text();
-
-    console.log('Status API:', response.status);
-    console.log('Respons API:', rawResponse);
-
-    let result;
-
-    try {
-      result = JSON.parse(rawResponse);
-    } catch (parseError) {
-      throw new Error(
-        'Respons API bukan JSON: ' +
-        (rawResponse.slice(0, 250) || 'respons kosong')
-      );
-    }
-
-    if (!response.ok || !result.success) {
-      throw new Error(
-        result.message ||
-        result.error ||
-        'Pengajuan gagal dikirim.'
-      );
-    }
-
-    const claimId =
-      result.claimId ||
-      result.warrantyId ||
-      '-';
-
-    localStorage.removeItem('juastoreClaimData');
-
-    statusMsg(
-      `✅ Pengajuan berhasil dikirim.<br>` +
-      `ID Garansi: <b>${claimId}</b><br>` +
-      `Simpan ID tersebut untuk mengecek status.`,
-      'success'
-    );
-
-    button.textContent = '✅ Pengajuan Terkirim';
-
-  } catch (error) {
-    console.error('Kesalahan pengajuan:', error);
-
-    statusMsg(
-      '❌ ' +
-      (
-        error.message ||
-        'Terjadi kesalahan saat mengirim pengajuan.'
-      ),
-      'error'
-    );
-
-    button.disabled = false;
-    button.textContent = '✈ Kirim Pengajuan';
-  }
-};
-
-const savedData =
-  localStorage.getItem('juastoreClaimData');
-
-if (savedData) {
-  try {
-    const data = JSON.parse(savedData);
-
-    ids.forEach(id => {
-      if (data[id] !== undefined) {
-        el(id).value = data[id];
-      }
+    $('statusForm').addEventListener('submit', async (e) => {
+      e.preventDefault(); clearNotice($('statusNotice')); $('statusResults').innerHTML='';
+      const q=$('statusQuery').value.trim(); if(!q) return;
+      setLoading($('statusBtn'),true,'Cari Status');
+      try{
+        const response=await fetch(`${API_BASE}/api/status?q=${encodeURIComponent(q)}`);
+        const raw=await response.text(); let data;
+        try{ data=JSON.parse(raw); }catch{ throw new Error(`Respons server tidak valid: ${raw.slice(0,160)}`); }
+        if(!response.ok || !data.success) throw new Error(data.message||'Status tidak dapat dimuat.');
+        if(!data.data?.length){ $('statusResults').innerHTML='<div class="empty">Data klaim tidak ditemukan.</div>'; return; }
+        $('statusResults').innerHTML=data.data.map(item=>{
+          const s=String(item.status||'Menunggu'); const cls=s==='Ditolak'?'bad':(s==='Diterima'||s==='Diproses'?'ok':'wait');
+          return `<article class="status-item"><div class="status-head"><div class="status-id">${esc(item.id)}</div><span class="badge ${cls}">${esc(s)}</span></div><div class="meta"><div><b>Produk:</b> ${esc(item.product_name||'-')}</div><div><b>ID Order:</b> ${esc(item.order_id||'-')}</div><div><b>Jenis:</b> ${esc(item.claim_type||'-')}</div><div><b>Durasi:</b> ${esc(item.duration||'-')}</div>${item.admin_note?`<div><b>Catatan admin:</b> ${esc(item.admin_note)}</div>`:''}<div><b>Diperbarui:</b> ${esc(item.updated_at?new Date(item.updated_at).toLocaleString('id-ID'):'-')}</div></div></article>`;
+        }).join('');
+      }catch(err){ showNotice($('statusNotice'),err.message||'Tidak dapat terhubung ke server.'); }
+      finally{ setLoading($('statusBtn'),false,'Cari Status'); }
     });
-  } catch (error) {
-    console.error(
-      'Data tersimpan tidak dapat dibaca:',
-      error
-    );
-  }
-}
-
-if (!el('orderDate').value) {
-  const now = new Date();
-
-  now.setMinutes(
-    now.getMinutes() - now.getTimezoneOffset()
-  );
-
-  el('orderDate').value =
-    now.toISOString().slice(0, 16);
-}
-
-updateSummary();
   </script>
 </body>
 </html>
