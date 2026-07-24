@@ -24,16 +24,331 @@
 <section class="panel" style="margin-top:20px"><div class="inside"><h3>📦 Ringkasan Pesanan</h3><div class="box"><div class="product-top"><div><div class="product-name" id="sumProduct">Belum diisi</div><div class="product-sub" id="sumClaim">Jenis pengajuan: Garansi</div></div><div class="price" id="sumPrice">Rp 0</div></div><div class="row"><div>Nama</div><div class="value" id="sumName">-</div></div><div class="row"><div>Durasi</div><div class="value" id="sumDuration">-</div></div><div class="row"><div>Tanggal</div><div class="value" id="sumDate">-</div></div><div class="row"><div>ID Order</div><div class="value" id="sumId">-</div></div><div class="row"><div>Pembayaran</div><div class="value" id="sumPayment">DANA</div></div></div></div></section></aside>
 </div><footer><div class="logo">JS</div><div><h2>JuaStore</h2><p>Premium Apps & Topup Game</p></div></footer></main>
 <script>
-const API_ENDPOINT='https://garansi-api.jhonyoga01.workers.dev/api/claims';
-const ids=['customerName','customerContact','productName','price','duration','orderDate','orderId','payment','claimType','problem'];
-const el=id=>document.getElementById(id);const rupiah=n=>new Intl.NumberFormat('id-ID').format(Number(n)||0);
-function updateSummary(){el('sumProduct').textContent=el('productName').value||'Belum diisi';el('sumClaim').textContent='Jenis pengajuan: '+el('claimType').value;el('sumPrice').textContent='Rp '+rupiah(el('price').value);el('sumName').textContent=el('customerName').value||'-';el('sumDuration').textContent=el('duration').value||'-';el('sumDate').textContent=el('orderDate').value?new Date(el('orderDate').value).toLocaleString('id-ID'):'-';el('sumId').textContent=el('orderId').value||'-';el('sumPayment').textContent=el('payment').value}
-ids.forEach(id=>{el(id).addEventListener('input',updateSummary);el(id).addEventListener('change',updateSummary)});
-el('evidence').addEventListener('change',e=>{const f=e.target.files[0],img=el('preview');if(!f){img.style.display='none';return}if(f.size>5*1024*1024){statusMsg('❌ Ukuran screenshot maksimal 5 MB.','error');e.target.value='';img.style.display='none';return}img.src=URL.createObjectURL(f);img.style.display='inline-block'});
-function collect(){const d={};ids.forEach(id=>d[id]=el(id).value);return d}function statusMsg(m,t=''){el('status').className='saved '+t;el('status').innerHTML=m}function phone(v){let p=String(v||'').replace(/\D/g,'');if(p.startsWith('0'))p='62'+p.slice(1);else if(p.startsWith('8'))p='62'+p;return p}
-el('saveBtn').onclick=()=>{localStorage.setItem('juastoreClaimData',JSON.stringify(collect()));statusMsg('Data berhasil disimpan di perangkat ini.','success')};
-el('sendBtn').onclick=async()=>{const d=collect(),wa=phone(d.customerContact);for(const [id,label] of [['customerContact','Nomor WhatsApp'],['productName','Nama produk'],['problem','Masalah/kendala']]){if(!el(id).value.trim()){statusMsg('❌ '+label+' wajib diisi.','error');el(id).focus();return}}if(!/^62\d{8,13}$/.test(wa)){statusMsg('❌ Nomor WhatsApp tidak valid. Contoh: 6285111662004.','error');return}const f=el('evidence').files[0];if(f&&f.size>5*1024*1024){statusMsg('❌ Ukuran screenshot maksimal 5 MB.','error');return}const b=el('sendBtn');b.disabled=true;b.textContent='⏳ Mengirim...';statusMsg('Mohon tunggu, pengajuan sedang dikirim.');try{const fd=new FormData();fd.append('whatsapp',wa);fd.append('product',d.productName);fd.append('duration',d.duration||'');fd.append('account',d.customerName||'');fd.append('problem',[`Nama: ${d.customerName||'-'}`,`Jenis Pengajuan: ${d.claimType||'Garansi'}`,`ID Order: ${d.orderId||'-'}`,`Tanggal Order: ${d.orderDate||'-'}`,`Pembayaran: ${d.payment||'-'}`,`Harga: Rp ${rupiah(d.price)}`,'',`Kendala:`,d.problem].join('\n'));if(f)fd.append('photo',f);const r=await fetch(API_ENDPOINT,{method:'POST',body:fd});const out=await r.json().catch(()=>({}));if(!r.ok||!out.success)throw new Error(out.message||'Pengiriman gagal.');localStorage.removeItem('juastoreClaimData');statusMsg(`✅ Pengajuan berhasil dikirim.<br>ID Garansi: <b>${out.warrantyId}</b><br>Simpan ID ini untuk cek status.`,'success');b.textContent='✅ Pengajuan Terkirim'}catch(err){statusMsg('❌ '+(err.message||'Failed to fetch'),'error');b.disabled=false;b.textContent='✈ Kirim Pengajuan'}};
-const saved=localStorage.getItem('juastoreClaimData');if(saved){try{const d=JSON.parse(saved);ids.forEach(id=>{if(d[id]!==undefined)el(id).value=d[id]})}catch(e){}}if(!el('orderDate').value){const n=new Date();n.setMinutes(n.getMinutes()-n.getTimezoneOffset());el('orderDate').value=n.toISOString().slice(0,16)}updateSummary();
-</script>
+const API_ENDPOINT = 'https://garansi-api.jhonyoga01.workers.dev/api/claims';
+
+const ids = [
+  'customerName',
+  'customerContact',
+  'productName',
+  'price',
+  'duration',
+  'orderDate',
+  'orderId',
+  'payment',
+  'claimType',
+  'problem'
+];
+
+const el = id => document.getElementById(id);
+
+const rupiah = value =>
+  new Intl.NumberFormat('id-ID').format(Number(value) || 0);
+
+function updateSummary() {
+  el('sumProduct').textContent =
+    el('productName').value || 'Belum diisi';
+
+  el('sumClaim').textContent =
+    'Jenis pengajuan: ' + el('claimType').value;
+
+  el('sumPrice').textContent =
+    'Rp ' + rupiah(el('price').value);
+
+  el('sumName').textContent =
+    el('customerName').value || '-';
+
+  el('sumDuration').textContent =
+    el('duration').value || '-';
+
+  el('sumDate').textContent = el('orderDate').value
+    ? new Date(el('orderDate').value).toLocaleString('id-ID')
+    : '-';
+
+  el('sumId').textContent =
+    el('orderId').value || '-';
+
+  el('sumPayment').textContent =
+    el('payment').value;
+}
+
+ids.forEach(id => {
+  el(id).addEventListener('input', updateSummary);
+  el(id).addEventListener('change', updateSummary);
+});
+
+el('evidence').addEventListener('change', event => {
+  const file = event.target.files[0];
+  const preview = el('preview');
+
+  if (!file) {
+    preview.removeAttribute('src');
+    preview.style.display = 'none';
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    statusMsg(
+      '❌ Ukuran screenshot maksimal 5 MB.',
+      'error'
+    );
+
+    event.target.value = '';
+    preview.removeAttribute('src');
+    preview.style.display = 'none';
+    return;
+  }
+
+  preview.src = URL.createObjectURL(file);
+  preview.style.display = 'inline-block';
+});
+
+function collect() {
+  const data = {};
+
+  ids.forEach(id => {
+    data[id] = el(id).value;
+  });
+
+  return data;
+}
+
+function statusMsg(message, type = '') {
+  el('status').className = 'saved ' + type;
+  el('status').innerHTML = message;
+}
+
+function normalizePhone(value) {
+  let number = String(value || '').replace(/\D/g, '');
+
+  if (number.startsWith('0')) {
+    number = '62' + number.slice(1);
+  } else if (number.startsWith('8')) {
+    number = '62' + number;
+  }
+
+  return number;
+}
+
+el('saveBtn').onclick = () => {
+  localStorage.setItem(
+    'juastoreClaimData',
+    JSON.stringify(collect())
+  );
+
+  statusMsg(
+    '✅ Data berhasil disimpan di perangkat ini.',
+    'success'
+  );
+};
+
+el('sendBtn').onclick = async () => {
+  const data = collect();
+  const whatsapp = normalizePhone(data.customerContact);
+  const file = el('evidence').files[0];
+
+  const requiredFields = [
+    ['customerName', 'Nama pelanggan'],
+    ['customerContact', 'Nomor WhatsApp'],
+    ['productName', 'Nama produk'],
+    ['orderId', 'ID Order'],
+    ['problem', 'Masalah atau kendala']
+  ];
+
+  for (const [id, label] of requiredFields) {
+    if (!el(id).value.trim()) {
+      statusMsg(`❌ ${label} wajib diisi.`, 'error');
+      el(id).focus();
+      return;
+    }
+  }
+
+  if (!/^62\d{8,13}$/.test(whatsapp)) {
+    statusMsg(
+      '❌ Nomor WhatsApp tidak valid. Contoh: 6285111662004.',
+      'error'
+    );
+
+    el('customerContact').focus();
+    return;
+  }
+
+  if (file && file.size > 5 * 1024 * 1024) {
+    statusMsg(
+      '❌ Ukuran screenshot maksimal 5 MB.',
+      'error'
+    );
+    return;
+  }
+
+  const button = el('sendBtn');
+
+  button.disabled = true;
+  button.textContent = '⏳ Mengirim...';
+
+  statusMsg(
+    'Mohon tunggu, pengajuan sedang dikirim.'
+  );
+
+  try {
+    const formData = new FormData();
+
+    /*
+     * Nama field di bawah ini sudah disesuaikan
+     * dengan worker.js JuaStore.
+     */
+    formData.append(
+      'customerName',
+      data.customerName.trim()
+    );
+
+    formData.append(
+      'customerContact',
+      whatsapp
+    );
+
+    formData.append(
+      'productName',
+      data.productName.trim()
+    );
+
+    formData.append(
+      'price',
+      data.price || ''
+    );
+
+    formData.append(
+      'duration',
+      data.duration || ''
+    );
+
+    formData.append(
+      'orderDate',
+      data.orderDate || ''
+    );
+
+    formData.append(
+      'orderId',
+      data.orderId.trim()
+    );
+
+    formData.append(
+      'payment',
+      data.payment || ''
+    );
+
+    formData.append(
+      'claimType',
+      data.claimType || 'Garansi'
+    );
+
+    formData.append(
+      'problem',
+      data.problem.trim()
+    );
+
+    if (file) {
+      formData.append('evidence', file);
+    }
+
+    const response = await fetch(API_ENDPOINT, {
+      method: 'POST',
+      body: formData
+    });
+
+    /*
+     * Respons dibaca sebagai teks terlebih dahulu.
+     * Ini mencegah error:
+     * No number after minus sign in JSON.
+     */
+    const rawResponse = await response.text();
+
+    console.log('Status API:', response.status);
+    console.log('Respons API:', rawResponse);
+
+    let result;
+
+    try {
+      result = JSON.parse(rawResponse);
+    } catch (parseError) {
+      throw new Error(
+        'Respons API bukan JSON: ' +
+        (rawResponse.slice(0, 250) || 'respons kosong')
+      );
+    }
+
+    if (!response.ok || !result.success) {
+      throw new Error(
+        result.message ||
+        result.error ||
+        'Pengajuan gagal dikirim.'
+      );
+    }
+
+    const claimId =
+      result.claimId ||
+      result.warrantyId ||
+      '-';
+
+    localStorage.removeItem('juastoreClaimData');
+
+    statusMsg(
+      `✅ Pengajuan berhasil dikirim.<br>` +
+      `ID Garansi: <b>${claimId}</b><br>` +
+      `Simpan ID tersebut untuk mengecek status.`,
+      'success'
+    );
+
+    button.textContent = '✅ Pengajuan Terkirim';
+
+  } catch (error) {
+    console.error('Kesalahan pengajuan:', error);
+
+    statusMsg(
+      '❌ ' +
+      (
+        error.message ||
+        'Terjadi kesalahan saat mengirim pengajuan.'
+      ),
+      'error'
+    );
+
+    button.disabled = false;
+    button.textContent = '✈ Kirim Pengajuan';
+  }
+};
+
+const savedData =
+  localStorage.getItem('juastoreClaimData');
+
+if (savedData) {
+  try {
+    const data = JSON.parse(savedData);
+
+    ids.forEach(id => {
+      if (data[id] !== undefined) {
+        el(id).value = data[id];
+      }
+    });
+  } catch (error) {
+    console.error(
+      'Data tersimpan tidak dapat dibaca:',
+      error
+    );
+  }
+}
+
+if (!el('orderDate').value) {
+  const now = new Date();
+
+  now.setMinutes(
+    now.getMinutes() - now.getTimezoneOffset()
+  );
+
+  el('orderDate').value =
+    now.toISOString().slice(0, 16);
+}
+
+updateSummary();
+  </script>
 </body>
 </html>
